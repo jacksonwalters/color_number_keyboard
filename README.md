@@ -27,4 +27,4 @@ spec(n) = K * sum_i s_i*\delta(f - log(p_i))
 
 where \delta is the Dirac delta function.
 
-Uses: This could be used to make a *keyboard whose keys are appropriately colored and labeled by prime numbers*. The output of this instrument would be sound, color, and number.
+Uses: This could be used to make a *keyboard whose keys are appropriately colored and labeled by prime numbers*. The output of this instrument would be sound, colorful light, and positive integers. It will then become possible to play a sequence of numbers.
