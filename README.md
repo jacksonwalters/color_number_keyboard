@@ -1,4 +1,4 @@
-# synestesia
+# synesthesia
 This code assigns a color (or sound) to each positive integer in a natural way, i.e. using physics.
 
 Input: n
@@ -30,3 +30,5 @@ spec(n) = sum_i s_i*\delta(f - f_b(p_i))
 where \delta is the Dirac delta function.
 
 Uses: This could be used to make a *keyboard whose keys are appropriately colored and labeled by prime numbers*. The output of this instrument would be sound, colorful light, and positive integers. It will then become possible to play a sequence of numbers. The set of primes available for a given base/key would be the primes in the visible/audible range.
+
+- Jackson Walters
