@@ -5,7 +5,7 @@ Input: n
 
 1) Factor n into a product of primes n = p_1^s_1 * ... p_r ^s_r
 
-2) Interpret p_i as (proportional to) the wavelength of a photon, and s_i as the number of photons of the given frequency (f=c/lambda). n is then mapped to an EM power spectrum which is simply spiked at each frequency, and the power at each frequency is proportional to s_i.
+2) Interpret p_i as corresponding to the frequency of a photon, and s_i as the number of photons of the given frequency (f=c/lambda). n is then mapped to an EM power spectrum which is simply spiked at each frequency, and the power at each frequency is proportional to s_i.
 
 The only added input is how we scale the wavelengths. The default implementation maps the wavelength of every prime smoothly into the visible range which is roughly 390nm (800Thz, violet) - 700nm (400Thz, red)
 
