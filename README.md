@@ -19,13 +19,13 @@ Motivation & Choices: Importantly, *spectra* of colors and sounds combine additi
 
 log(n) = sum_i s_i*log(p_i)
 
-We have to choose whether large primes correspond to high or low frequency light/sound. It feels natural to say that large numbers should correspond to higher energies, and therefore higher frequencies. To make things visible, we set 2 to be red/bass, 2 <-> red <-> 400THz = f_0. We also need to choose a base for the logarithm. This is akin to selecting a key, i.e. this tells you which prime is red. Thus, we set the frequency of a prime to be 
+We have to choose whether large primes correspond to high or low frequency light/sound. It feels natural to say that large numbers should correspond to higher energies, and therefore higher frequencies. To make things visible, we set some initial prime b to be red/bass, b <-> red <-> 400THz = f_0. We include this as the base for the logarithm. This is akin to selecting a key, i.e. this tells you which prime is red. Thus, we set the frequency of a prime to be 
 
-f(p,b) = f_0*log_b(p).
+f_b(p) = f_0*log_b(p).
 
 Define the spectrum to be
 
-spec(n) = sum_i s_i*\delta(f - f(p_i))
+spec(n) = sum_i s_i*\delta(f - f_b(p_i))
 
 where \delta is the Dirac delta function.
 
