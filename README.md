@@ -33,4 +33,4 @@ Uses: This could be used to make a *keyboard whose keys are appropriately colore
 
 - Jackson Walters
 
-Acknowledgements: A big thanks to Evelyn, Sara, Angus, and Erin for helpful conversations. 
+Acknowledgements: A big thanks to Evelyn, Sean, Sara, Angus, and Erin for helpful conversations. 
