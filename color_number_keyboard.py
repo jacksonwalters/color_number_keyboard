@@ -32,7 +32,7 @@ lambda_violet = np.float64(380*10**-9) #wavelength of violet light, ~380nm
 lambda_red = np.float64(750*10**-9) #wavelength of red light, ~750nm
 f_red = c/lambda_red #freq. of red light, ~400THz
 f_violet = c/lambda_violet #freq of violet light, ~788Thz
-L = 1 #parameter controlling brightness/luminosity
+L = 150 #scaling factor controlling brightness/luminosity
 
 #constants for sound
 f_C = 440 #frequency of C note in Hz
@@ -78,10 +78,10 @@ def sound_freq(prime):
 #results in weighted sum over primes present
 def XYZ(n):
     fact = factorint(n)
-    X = L*sum([mult*x_bar(c/light_freq(prime)) for prime,mult in fact.items()])
-    Y = L*sum([mult*y_bar(c/light_freq(prime)) for prime,mult in fact.items()])
-    Z = L*sum([mult*z_bar(c/light_freq(prime)) for prime,mult in fact.items()])
-    return np.array([X,Y,Z])
+    X = sum([mult*x_bar(c/light_freq(prime)) for prime,mult in fact.items()])
+    Y = sum([mult*y_bar(c/light_freq(prime)) for prime,mult in fact.items()])
+    Z = sum([mult*z_bar(c/light_freq(prime)) for prime,mult in fact.items()])
+    return L*np.array([X,Y,Z])
 
 #define constant RGBtoXYZ transformation matrix
 RBGtoXYZ=(1/.17697)*np.array([[.49000,.31000,.20000],[.17697,.81240,.01063],[.00000,.01000,.99000]])
