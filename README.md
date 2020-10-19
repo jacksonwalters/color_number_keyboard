@@ -15,11 +15,11 @@ The only added input is how we scale the wavelengths. The default implementation
 
 3) To convert this spectrum to the appropriate color of light we use the CIE color matching functions (https://www.cs.rit.edu/~ncs/color/t_spectr.html). This can be implemented in almost any language. I used Mathematica. (https://mathematica.stackexchange.com/questions/57389/convert-spectral-distribution-to-rgb-color/57457#57457).
 
-Output: An RBG color specification, number.
+Output: An RBG color specification, number, and sound.
 
 The same method can be used for sound, in which case we just scale into the audible range of 20Hz - 20kHz.
 
-Motivation & Choices: Importantly, *spectra* of colors and sounds combine additively. Combining natural numbers via multiplication is straightforward when presented in their factored form. To transition to addition, take the logrithm (which is proportional to the number of digits, i.e. the size of the representation of n, i.e. the amount of data required to specify it). Note that
+Importantly, *spectra* of colors and sounds combine additively. Combining natural numbers via multiplication is straightforward when presented in their factored form. To transition to addition, take the logarithm. Note that
 
 log(n) = sum_i s_i*log(p_i)
 
@@ -33,4 +33,4 @@ spec(n) = sum_i s_i*\delta(f - f_b(p_i))
 
 where \delta is the Dirac delta function.
 
-This could be used to make a *keyboard whose keys are appropriately colored and labeled by prime numbers*. The output of this instrument would be sound, colorful light, and positive integers. It will then become possible to play a sequence of numbers. The set of primes available for a given base/key would be the primes in the visible/audible range.
+This could be used to make a *keyboard whose keys are appropriately colored and labeled by prime numbers*. The output of this instrument would be sound, colored light, and positive integers. It will then become possible to play a sequence of numbers. The set of primes available for a given base/key would be the primes in the visible/audible range.
