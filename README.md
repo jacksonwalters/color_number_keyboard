@@ -1,3 +1,4 @@
+#SYNESTHESIAER
 #keyboard which assigns a prime number, a light frequency, and sound frequency
 #to keys. it mixes the light frequencies to corresponding RGB colors, mixes
 #(eventually) the pure tones to sounds, and multiplies the primes to get unique
