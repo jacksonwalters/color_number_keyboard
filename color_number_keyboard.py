@@ -20,20 +20,25 @@ from sympy.ntheory import factorint
 from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
 
+num_keys = 88 #number of keys on keyboard
+prime_index = {sympy.prime(i):i for i in range(1,num_keys+1)} #index of primes
+
+#constants for light
 c=299792458 #speed of light in m/s
-lambda_violet = 380*10**-9 #wavelength of violet light, ~380nm
-lambda_red = 750*10**-9 #wavelength of red light, ~750nm
+lambda_violet = np.float64(380*10**-9) #wavelength of violet light, ~380nm
+lambda_red = np.float64(750*10**-9) #wavelength of red light, ~750nm
 f_red = c/lambda_red #freq. of red light, ~400THz
 f_violet = c/lambda_violet #freq of violet light, ~788Thz
-
 L = 680 #parameter controlling brightness/luminosity
-f_0 = f_red #set initial freqency to correspond to red
-base = 17 #set the base of the logarithm
+
+#constants for sound
+f_C = 440 #frequency of C note in Hz
+b_sound = np.power(2,1/12)
 
 #import RGB values from CIE 1931 color specification
 #http://www.cvrl.org/database/data/cmfs/ciexyzjv.csv
 #first column is wavelengths in nm as ints in steps of 5
-#next 3 columns are x,y,z values as floats
+#next 3 columns are x,y,z tristimulus values as floats
 cie_data=dict()
 with open('ciexyzjv.csv', newline='') as csvfile:
     reader = csv.reader(csvfile)
@@ -58,9 +63,15 @@ x_bar = interp1d(wavelengths, x)
 y_bar = interp1d(wavelengths, y)
 z_bar = interp1d(wavelengths, z)
 
-#define frequency of prime number as
-def freq(base,prime):
-    return f_0*math.log(prime,base)
+#assign each prime number a frequency in visible spectrum
+def light_freq(prime):
+    i=prime_index[prime]
+    return np.power(f_violet/f_red,(i-1)/(num_keys-1))*f_red
+
+#assign each prime number a frequency in audible spectrum
+def sound_freq(prime):
+    i=prime_index[prime]
+    return np.power(b_sound,i-49)*f_C
 
 #factor integer to obtain prime factorization
 #assign delta functions centered at each prime in factorization
@@ -70,7 +81,13 @@ def freq(base,prime):
 #results in weighted sum over primes present
 def XYZ(n):
     fact = factorint(n)
-    X = L*sum([mult*x_bar(c/freq(base,prime)) for prime,mult in fact.items()])
-    Y = L*sum([mult*y_bar(c/freq(base,prime)) for prime,mult in fact.items()])
-    Z = L*sum([mult*z_bar(c/freq(base,prime)) for prime,mult in fact.items()])
-    return [X,Y,Z]
+    X = L*sum([mult*x_bar(c/light_freq(prime)) for prime,mult in fact.items()])
+    Y = L*sum([mult*y_bar(c/light_freq(prime)) for prime,mult in fact.items()])
+    Z = L*sum([mult*z_bar(c/light_freq(prime)) for prime,mult in fact.items()])
+    return np.array([X,Y,Z])
+
+#define constant RGBtoXYZ transformation matrix
+RBGtoXYZ=(1/.17697)*np.array([[.49000,.31000,.20000],[.17697,.81240,.01063],[.00000,.01000,.99000]])
+#convert XYZ tristimulus values to RGB colors using matrix
+def XYZtoRGB(v):
+    return np.matmul(np.linalg.inv(RBGtoXYZ),v)
