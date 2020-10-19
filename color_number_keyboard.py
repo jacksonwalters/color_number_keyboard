@@ -32,7 +32,7 @@ lambda_violet = np.float64(380*10**-9) #wavelength of violet light, ~380nm
 lambda_red = np.float64(750*10**-9) #wavelength of red light, ~750nm
 f_red = c/lambda_red #freq. of red light, ~400THz
 f_violet = c/lambda_violet #freq of violet light, ~788Thz
-L = 150 #scaling factor controlling brightness/luminosity
+L = 100 #scaling factor controlling brightness/luminosity
 
 #constants for sound
 f_C = 440 #frequency of C note in Hz
@@ -84,23 +84,31 @@ def XYZ(n):
     return L*np.array([X,Y,Z])
 
 #define constant RGBtoXYZ transformation matrix
-RBGtoXYZ=(1/.17697)*np.array([[.49000,.31000,.20000],[.17697,.81240,.01063],[.00000,.01000,.99000]])
+XYZtoRGB=(1/.17697)*np.array([[.49000,.31000,.20000],[.17697,.81240,.01063],[.00000,.01000,.99000]])
 #convert XYZ tristimulus values to RGB colors using matrix
-def XYZtoRGB(v):
-    return np.matmul(np.linalg.inv(RBGtoXYZ),v)
+def sRGB(XYZ):
+    RGB = np.matmul(np.linalg.inv(XYZtoRGB),XYZ)
+    return np.array(list(map(gamma,RGB)))
+
+#non-linear gamma correction to transform RGB to sRGB
+def gamma(u):
+    if u <= .0031308:
+        return (323/25)*u
+    else:
+        return (211*math.pow(u,5/12)-11)/200
 
 if __name__ == "__main__":
     keys = input("Enter set of keys:").split(",") #input multi-set of keys
     keys=list(map(int,keys)) #convert strings to ints
     keys=list(map(sympy.prime,keys)) #map key number to primes
+    #compute number, color, sound for input
     n=math.prod(keys) #multiply primes together
-    color=XYZtoRGB(XYZ(n)) #get RGB color associated to n
+    color=sRGB(XYZ(n)) #get RGB color associated to n
     sound=list(map(sound_freq,keys)) #get sound frequencies associated to keys
     #output number, color, sound to terminal
     sys.stderr.write("Number: "+str(n)+"\n")
     sys.stderr.write("RGB Color: "+str(color)+"\n")
     sys.stderr.write("Sound: "+str(sound)+"\n")
-
     #output sound via speaker, color and number via display
     if 37 <= sound[0] <= 32767:
         winsound.Beep(math.floor(sound[0]),1000) #can only play single tone for now
