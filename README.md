@@ -5,7 +5,7 @@
 This code assigns a color and sound to a range of positive integers in a natural
 way.
 
-Input: set of keys
+Input: n
 
 1) Factor n into a product of primes n = p_1^s_1 * ... p_r ^s_r
 
@@ -15,7 +15,7 @@ The only added input is how we scale the wavelengths. The default implementation
 
 3) To convert this spectrum to the appropriate color of light we use the CIE color matching functions (https://www.cs.rit.edu/~ncs/color/t_spectr.html). This can be implemented in almost any language. I used Mathematica. (https://mathematica.stackexchange.com/questions/57389/convert-spectral-distribution-to-rgb-color/57457#57457).
 
-Output: An RBG color specification, number, and sound.
+Output: An RBG color specification.
 
 The same method can be used for sound, in which case we just scale into the audible range of 20Hz - 20kHz.
 
