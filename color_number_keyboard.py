@@ -14,6 +14,7 @@
 ################################################################################
 
 import csv
+import sys
 import numpy as np
 import math
 from sympy.ntheory import factorint
@@ -91,3 +92,12 @@ RBGtoXYZ=(1/.17697)*np.array([[.49000,.31000,.20000],[.17697,.81240,.01063],[.00
 #convert XYZ tristimulus values to RGB colors using matrix
 def XYZtoRGB(v):
     return np.matmul(np.linalg.inv(RBGtoXYZ),v)
+
+if __name__ == "__main__":
+    keys = input("Enter set of keys:")
+    n=math.prod(keys)
+    color=XYZtoRGB(XYZ(n))
+    sound=list(map(sound_freq,keys))
+    sys.stderr.write("Number: "+str(n)+"\n")
+    sys.stderr.write("RGB Color: "+str(color)+"\n")
+    sys.stderr.write("Sound: "+str(sound)+"\n")
