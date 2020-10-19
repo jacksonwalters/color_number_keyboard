@@ -32,7 +32,7 @@ lambda_violet = np.float64(380*10**-9) #wavelength of violet light, ~380nm
 lambda_red = np.float64(750*10**-9) #wavelength of red light, ~750nm
 f_red = c/lambda_red #freq. of red light, ~400THz
 f_violet = c/lambda_violet #freq of violet light, ~788Thz
-L = 300 #parameter controlling brightness/luminosity
+L = 1 #parameter controlling brightness/luminosity
 
 #constants for sound
 f_C = 440 #frequency of C note in Hz
@@ -90,17 +90,19 @@ def XYZtoRGB(v):
     return np.matmul(np.linalg.inv(RBGtoXYZ),v)
 
 if __name__ == "__main__":
-    keys = input("Enter set of keys:").split(",")
-    keys=list(map(int,keys))
-    n=math.prod(keys)
-    color=XYZtoRGB(XYZ(n))
-    sound=list(map(sound_freq,keys))
+    keys = input("Enter set of keys:").split(",") #input multi-set of keys
+    keys=list(map(int,keys)) #convert strings to ints
+    keys=list(map(sympy.prime,keys)) #map key number to primes
+    n=math.prod(keys) #multiply primes together
+    color=XYZtoRGB(XYZ(n)) #get RGB color associated to n
+    sound=list(map(sound_freq,keys)) #get sound frequencies associated to keys
+    #output number, color, sound to terminal
     sys.stderr.write("Number: "+str(n)+"\n")
     sys.stderr.write("RGB Color: "+str(color)+"\n")
     sys.stderr.write("Sound: "+str(sound)+"\n")
 
-    #output the sound, color, and number
-    if 37<= sound[0] <= 32767:
+    #output sound via speaker, color and number via display
+    if 37 <= sound[0] <= 32767:
         winsound.Beep(math.floor(sound[0]),1000) #can only play single tone for now
     plt.title(str(n))
     plt.imshow([[color]])
