@@ -17,9 +17,11 @@ import csv
 import sys
 import numpy as np
 import math
+import sympy
 from sympy.ntheory import factorint
 from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
+import winsound
 
 num_keys = 88 #number of keys on keyboard
 prime_index = {sympy.prime(i):i for i in range(1,num_keys+1)} #index of primes
@@ -30,7 +32,7 @@ lambda_violet = np.float64(380*10**-9) #wavelength of violet light, ~380nm
 lambda_red = np.float64(750*10**-9) #wavelength of red light, ~750nm
 f_red = c/lambda_red #freq. of red light, ~400THz
 f_violet = c/lambda_violet #freq of violet light, ~788Thz
-L = 680 #parameter controlling brightness/luminosity
+L = 300 #parameter controlling brightness/luminosity
 
 #constants for sound
 f_C = 440 #frequency of C note in Hz
@@ -52,12 +54,6 @@ color_data = np.array(list(cie_data.values()))
 x = color_data.T[0]
 y = color_data.T[1]
 z = color_data.T[2]
-
-#plot x, y, z color data
-#plt.plot(wavelengths,x)
-#plt.plot(wavelengths,y)
-#plt.plot(wavelengths,z)
-#plt.show()
 
 #interpolate x, y, z color data to smooth color functions
 x_bar = interp1d(wavelengths, x)
@@ -94,10 +90,18 @@ def XYZtoRGB(v):
     return np.matmul(np.linalg.inv(RBGtoXYZ),v)
 
 if __name__ == "__main__":
-    keys = input("Enter set of keys:")
+    keys = input("Enter set of keys:").split(",")
+    keys=list(map(int,keys))
     n=math.prod(keys)
     color=XYZtoRGB(XYZ(n))
     sound=list(map(sound_freq,keys))
     sys.stderr.write("Number: "+str(n)+"\n")
     sys.stderr.write("RGB Color: "+str(color)+"\n")
     sys.stderr.write("Sound: "+str(sound)+"\n")
+
+    #output the sound, color, and number
+    if 37<= sound[0] <= 32767:
+        winsound.Beep(math.floor(sound[0]),1000) #can only play single tone for now
+    plt.title(str(n))
+    plt.imshow([[color]])
+    plt.show()
