@@ -99,7 +99,7 @@ def gamma(u):
 
 if __name__ == "__main__":
     while True:
-        keys = input("Enter set of keys:").split(",") #input multi-set of keys
+        keys=input("Enter set of keys:").split(",") #input multi-set of keys
         keys=list(map(int,keys)) #convert strings to ints
         keys=list(map(sympy.prime,keys)) #map key number to primes
         #compute number, color, sound for input
