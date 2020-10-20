@@ -98,20 +98,21 @@ def gamma(u):
         return (211*math.pow(u,5/12)-11)/200
 
 if __name__ == "__main__":
-    keys = input("Enter set of keys:").split(",") #input multi-set of keys
-    keys=list(map(int,keys)) #convert strings to ints
-    keys=list(map(sympy.prime,keys)) #map key number to primes
-    #compute number, color, sound for input
-    n=math.prod(keys) #multiply primes together
-    color=sRGB(XYZ(n)) #get RGB color associated to n
-    sound=list(map(sound_freq,keys)) #get sound frequencies associated to keys
-    #output number, color, sound to terminal
-    sys.stderr.write("Number: "+str(n)+"\n")
-    sys.stderr.write("RGB Color: "+str(color)+"\n")
-    sys.stderr.write("Sound: "+str(sound)+"\n")
-    #output sound via speaker, color and number via display
-    if 37 <= sound[0] <= 32767:
-        winsound.Beep(math.floor(sound[0]),1000) #can only play single tone for now
-    plt.title(str(n))
-    plt.imshow([[color]])
-    plt.show()
+    while True:
+        keys = input("Enter set of keys:").split(",") #input multi-set of keys
+        keys=list(map(int,keys)) #convert strings to ints
+        keys=list(map(sympy.prime,keys)) #map key number to primes
+        #compute number, color, sound for input
+        n=math.prod(keys) #multiply primes together
+        rgb_color=sRGB(XYZ(n)) #get RGB color associated to n
+        tones=list(map(sound_freq,keys)) #get sound frequencies associated to keys
+        #output number, color, sound to terminal
+        sys.stderr.write("Number: "+str(n)+"\n")
+        sys.stderr.write("RGB Color: "+str(rgb_color)+"\n")
+        sys.stderr.write("Tones: "+str(tones)+"\n")
+        #output sound via speaker, color and number via display
+        if 37 <= tones[0] <= 32767:
+            winsound.Beep(math.floor(tones[0]),1000) #can only play single tone for now
+        plt.title(str(n))
+        plt.imshow([[rgb_color]])
+        plt.pause(0.05)
