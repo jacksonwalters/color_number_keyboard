@@ -10,15 +10,13 @@ Input: n
 
 1) Factor n into a product of primes n = p_1^s_1 * ... p_r ^s_r
 
-2) Interpret p_i as corresponding to the frequency of a photon, and s_i as the number of photons of the given frequency (f=c/lambda). n is then mapped to an EM power spectrum which is simply spiked at each frequency, and the power at each frequency is proportional to s_i.
-
 The only added input is how we scale the wavelengths. The default implementation maps the wavelength of every prime smoothly into the visible range which is roughly 380nm (800Thz, violet) - 700nm (400Thz, red)
 
-3) To convert this spectrum to the appropriate color of light we use the CIE color matching functions (https://www.cs.rit.edu/~ncs/color/t_spectr.html). This can be implemented in almost any language. I used Mathematica. (https://mathematica.stackexchange.com/questions/57389/convert-spectral-distribution-to-rgb-color/57457#57457).
+3) To convert this spectrum to the appropriate color of light we use the CIE color matching functions (https://www.cs.rit.edu/~ncs/color/t_spectr.html). This can be implemented in almost any language. (https://mathematica.stackexchange.com/questions/57389/convert-spectral-distribution-to-rgb-color/57457#57457).
 
 Output: An RBG color specification.
 
-The same method can be used for sound, in which case we just scale into the audible range of 20Hz - 20kHz.
+The same method can be used for sound, in which case we just scale into the audible range of 20Hz - 20kHz. We then need to mix the tones to get a sound using a synthesizer package.
 
 Importantly, *spectra* of colors and sounds combine additively. Combining natural numbers via multiplication is straightforward when presented in their factored form. To transition to addition, take the logarithm. Note that
 
