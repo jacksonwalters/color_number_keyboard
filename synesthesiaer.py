@@ -20,7 +20,6 @@ import math
 import sympy
 from sympy.ntheory import factorint
 from scipy.interpolate import interp1d
-import matplotlib.pyplot as plt
 import winsound
 import pygame
 from pygame.locals import *
@@ -122,7 +121,7 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode( (640,480) )
     pygame.display.set_caption('Synesthesiaer')
     screen.fill((174, 182, 245))
-    font = pygame.font.Font(None, 24)
+    font = pygame.font.Font(None, 36)
 
     done = False
     while not done:
