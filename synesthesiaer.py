@@ -130,7 +130,7 @@ if __name__ == "__main__":
         pygame.event.pump()
         keys = pygame.key.get_pressed()
         pressed=[i for i in range(len(keys)) if keys[i] == True]
-        if len(pressed) > 0:f
+        if len(pressed) > 0:
             pressed=list(map(sympy.prime,pressed)) #map key number to primes
             #compute number, color, sound for input
             n=math.prod(pressed) #multiply primes together
