@@ -22,8 +22,10 @@ from sympy.ntheory import factorint
 from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
 import winsound
+import pygame
+from pygame.locals import *
 
-num_keys = 88 #number of keys on keyboard
+num_keys = 144 #number of keys on keyboard
 prime_index = {sympy.prime(i):i for i in range(1,num_keys+1)} #index of primes
 
 #constants for light
@@ -32,7 +34,7 @@ lambda_violet = np.float64(380*10**-9) #wavelength of violet light, ~380nm
 lambda_red = np.float64(750*10**-9) #wavelength of red light, ~750nm
 f_red = c/lambda_red #freq. of red light, ~400THz
 f_violet = c/lambda_violet #freq of violet light, ~788Thz
-L = 100 #scaling factor controlling brightness/luminosity
+L = 1 #scaling factor controlling brightness/luminosity
 
 #constants for sound
 f_C = 440 #frequency of C note in Hz
@@ -76,7 +78,7 @@ def sound_freq(prime):
 #perform convolution (integral against color matching function) to obtain XYZ
 #integral of delta function is just *value* of color matching function
 #results in weighted sum over primes present
-def XYZ(n):
+def XYZ(nH):
     fact = factorint(n)
     X = sum([mult*x_bar(c/light_freq(prime)) for prime,mult in fact.items()])
     Y = sum([mult*y_bar(c/light_freq(prime)) for prime,mult in fact.items()])
@@ -84,35 +86,63 @@ def XYZ(n):
     return L*np.array([X,Y,Z])
 
 #define constant RGBtoXYZ transformation matrix
-XYZtoRGB=(1/.17697)*np.array([[.49000,.31000,.20000],[.17697,.81240,.01063],[.00000,.01000,.99000]])
+XYZtoRGB=np.array([[3.24096994,-1.53738318,-.49861076],[-.96924364,1.8759675,.04155506],[.05563008,-.20397696,1.05697151]])
 #convert XYZ tristimulus values to RGB colors using matrix
 def sRGB(XYZ):
-    RGB = np.matmul(np.linalg.inv(XYZtoRGB),XYZ)
+    RGB = np.matmul(XYZtoRGB,XYZ)
     return np.array(list(map(gamma,RGB)))
 
 #non-linear gamma correction to transform RGB to sRGB
 def gamma(u):
     if u <= .0031308:
-        return (323/25)*u
+        g = (323/25)*u
     else:
-        return (211*math.pow(u,5/12)-11)/200
+        g = (211*math.pow(u,5/12)-11)/200
+    if g < 0:
+        return 0
+    elif g > 1:
+        return 1
+    else:
+        return g
+
+#display function for pygame
+def display(str,color):
+    text = font.render(str, True, (0, 0, 0), color)
+    textRect = text.get_rect()
+    textRect.centerx = screen.get_rect().centerx
+    textRect.centery = screen.get_rect().centery
+    print(color)
+    screen.fill(color)
+    screen.blit(text, textRect)
+    pygame.display.update()
 
 if __name__ == "__main__":
-    while True:
-        keys=input("Enter set of keys:").split(",") #input multi-set of keys
-        keys=list(map(int,keys)) #convert strings to ints
-        keys=list(map(sympy.prime,keys)) #map key number to primes
-        #compute number, color, sound for input
-        n=math.prod(keys) #multiply primes together
-        rgb_color=sRGB(XYZ(n)) #get RGB color associated to n
-        tones=list(map(sound_freq,keys)) #get sound frequencies associated to keys
-        #output number, color, sound to terminal
-        sys.stderr.write("Number: "+str(n)+"\n")
-        sys.stderr.write("RGB Color: "+str(rgb_color)+"\n")
-        sys.stderr.write("Tones: "+str(tones)+"\n")
-        #output sound via speaker, color and number via display
-        if 37 <= tones[0] <= 32767:
-            winsound.Beep(math.floor(tones[0]),1000) #can only play single tone for now
-        plt.title(str(n))
-        plt.imshow([[rgb_color]])
-        plt.pause(0.05)
+    #initialize the pygame display
+    pygame.init()
+    screen = pygame.display.set_mode( (640,480) )
+    pygame.display.set_caption('Synesthesiaer')
+    screen.fill((174, 182, 245))
+    font = pygame.font.Font(None, 17)
+
+    done = False
+    while not done:
+        #get input from keyboard
+        pygame.event.pump()
+        keys = pygame.key.get_pressed()
+        pressed=[i for i in range(len(keys)) if keys[i] == True]
+        if len(pressed) > 0:f
+            pressed=list(map(sympy.prime,pressed)) #map key number to primes
+            #compute number, color, sound for input
+            n=math.prod(pressed) #multiply primes together
+            rgb_color=sRGB(XYZ(n)) #get RGB color associated to n
+            int_rgb_color = tuple([math.floor(255*value) for value in rgb_color])
+            tones=list(map(sound_freq,pressed)) #get sound frequencies associated to keys
+            #play sound from frequencies
+            if len(tones) >0 and 37 <= tones[0] <= 32767:
+                winsound.Beep(math.floor(tones[0]),1000) #can only play single tone for now
+                #display number and color associated to keys pressed
+            print(int_rgb_color)
+            display(str(n),int_rgb_color)
+
+        if keys[K_ESCAPE]:
+            done = True
