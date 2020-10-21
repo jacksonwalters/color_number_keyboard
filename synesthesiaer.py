@@ -122,7 +122,7 @@ if __name__ == "__main__":
     screen = pygame.display.set_mode( (640,480) )
     pygame.display.set_caption('Synesthesiaer')
     screen.fill((174, 182, 245))
-    font = pygame.font.Font(None, 17)
+    font = pygame.font.Font(None, 24)
 
     done = False
     while not done:
@@ -139,7 +139,7 @@ if __name__ == "__main__":
             tones=list(map(sound_freq,pressed)) #get sound frequencies associated to keys
             #play sound from frequencies
             if len(tones) >0 and 37 <= tones[0] <= 32767:
-                winsound.Beep(math.floor(tones[0]),1000) #can only play single tone for now
+                winsound.Beep(math.floor(tones[0]),100) #can only play single tone for now
                 #display number and color associated to keys pressed
             print(int_rgb_color)
             display(str(n),int_rgb_color)
