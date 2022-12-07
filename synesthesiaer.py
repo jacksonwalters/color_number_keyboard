@@ -20,9 +20,11 @@ import math
 import sympy
 from sympy.ntheory import factorint
 from scipy.interpolate import interp1d
-import winsound
 import pygame
 from pygame.locals import *
+from tones import SINE_WAVE
+from tones.mixer import Mixer
+import time
 
 num_keys = 144 #number of keys on keyboard
 prime_index = {sympy.prime(i):i for i in range(1,num_keys+1)} #index of primes
@@ -130,17 +132,26 @@ if __name__ == "__main__":
         keys = pygame.key.get_pressed()
         pressed=[i for i in range(len(keys)) if keys[i] == True]
         if len(pressed) > 0:
-            pressed=list(map(sympy.prime,pressed)) #map key number to primes
+            primes_pressed=list(map(sympy.prime,pressed)) #map key number to primes
             #compute number, color, sound for input
-            n=math.prod(pressed) #multiply primes together
+            n=np.prod(primes_pressed) #multiply primes together
             rgb_color=sRGB(XYZ(n)) #get RGB color associated to n
             int_rgb_color = tuple([math.floor(255*value) for value in rgb_color])
-            tones=list(map(sound_freq,pressed)) #get sound frequencies associated to keys
+            tones=list(map(sound_freq,primes_pressed)) #get sound frequencies associated to keys
             #play sound from frequencies
-            if len(tones) >0 and 37 <= tones[0] <= 32767:
-                winsound.Beep(math.floor(tones[0]),100) #can only play single tone for now
-                #display number and color associated to keys pressed
-            print(int_rgb_color)
+            if len(tones) > 0 and 37 <= tones[0] <= 32767:
+                #mix the tones of the different frequencies
+                mixer = Mixer(44100, 0.5) #Create mixer, set sample rate and amplitude
+                mixer.create_track(0, SINE_WAVE, attack=0.01, decay=0.1) #Create monophonic track
+                mixer.add_note(0, note='c#', octave=5, duration=1.0, endnote='c#') # Add a 1-second tone on track 0, slide pitch from c# to c#
+                mixer.write_wav('tones.wav') #Mix all tracks into a single list of samples and write to .wav file
+                samples = mixer.mix() #Mix all tracks into a single list of samples scaled from 0.0 to 1.0, and return the sample list
+                #play sound using pygame
+                pygame.mixer.init()
+                mixed_tones = pygame.mixer.Sound("tones.wav")
+                mixed_tones.play()
+            #display number and color associated to keys pressed
+            print(str(n),int_rgb_color)
             display(str(n),int_rgb_color)
 
         if keys[K_ESCAPE]:
