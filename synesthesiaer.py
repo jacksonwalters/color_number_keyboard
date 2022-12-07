@@ -142,8 +142,9 @@ if __name__ == "__main__":
             if len(tones) > 0 and 37 <= tones[0] <= 32767:
                 #mix the tones of the different frequencies
                 mixer = Mixer(44100, 0.5) #Create mixer, set sample rate and amplitude
-                mixer.create_track(0, SINE_WAVE, attack=0.01, decay=0.1) #Create monophonic track
-                mixer.add_note(0, note='c#', octave=5, duration=1.0, endnote='c#') # Add a 1-second tone on track 0, slide pitch from c# to c#
+                for i in range(len(tones)):
+                    mixer.create_track(i, SINE_WAVE, attack=0.01, decay=0.1) #Create monophonic track
+                    mixer.add_tone(i, frequency=tones[i], duration=1.0, amplitude=1.0) #add tone at given frequency
                 mixer.write_wav('tones.wav') #Mix all tracks into a single list of samples and write to .wav file
                 samples = mixer.mix() #Mix all tracks into a single list of samples scaled from 0.0 to 1.0, and return the sample list
                 #play sound using pygame
@@ -151,7 +152,7 @@ if __name__ == "__main__":
                 mixed_tones = pygame.mixer.Sound("tones.wav")
                 mixed_tones.play()
             #display number and color associated to keys pressed
-            print(str(n),int_rgb_color)
+            print(tones,str(n),int_rgb_color)
             display(str(n),int_rgb_color)
 
         if keys[K_ESCAPE]:
