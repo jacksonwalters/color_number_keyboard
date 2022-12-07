@@ -144,7 +144,7 @@ if __name__ == "__main__":
                 mixer = Mixer(44100, 0.5) #Create mixer, set sample rate and amplitude
                 for i in range(len(tones)):
                     mixer.create_track(i, SINE_WAVE, attack=0.01, decay=0.1) #Create monophonic track
-                    mixer.add_tone(i, frequency=tones[i], duration=1.0, amplitude=1.0) #add tone at given frequency
+                    mixer.add_tone(i, frequency=tones[i], duration=0.25, amplitude=1.0) #add tone at given frequency
                 mixer.write_wav('tones.wav') #Mix all tracks into a single list of samples and write to .wav file
                 samples = mixer.mix() #Mix all tracks into a single list of samples scaled from 0.0 to 1.0, and return the sample list
                 #play sound using pygame
