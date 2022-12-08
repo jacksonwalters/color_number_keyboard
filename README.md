@@ -2,6 +2,13 @@
 #to keys. it mixes the light frequencies to corresponding RGB colors, mixes
 #the pure tones to sounds, and multiplies the primes to get unique numbers.
 
+https://pypi.org/project/synesthesiaer/0.0.4/
+
+'''
+pip install synesthesiaer
+python3 -m synesthesiaer.main
+'''
+
 This code assigns a color and sound to a range of positive integers in a natural
 way.
 
