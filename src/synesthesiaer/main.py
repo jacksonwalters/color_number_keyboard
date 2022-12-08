@@ -13,11 +13,9 @@
 ################################################################################
 ################################################################################
 
-import csv
-import sys
+import sys, os, csv
 import numpy as np
-import math
-import sympy
+import math, sympy
 from sympy.ntheory import factorint
 from scipy.interpolate import interp1d
 import pygame
@@ -46,7 +44,8 @@ b_sound = np.power(2,1/12)
 #first column is wavelengths in nm as ints in steps of 5
 #next 3 columns are x,y,z tristimulus values as floats
 cie_data=dict()
-with open('ciexyzjv.csv', newline='') as csvfile:
+#this_dir, this_filename = os.path.split(__file__)
+with open("src/synesthesiaer/ciexyzjv.csv", newline='') as csvfile:
     reader = csv.reader(csvfile)
     for row in reader:
         cie_data[int(row[0])] = list(map(float,row[1:]))
@@ -145,7 +144,7 @@ if __name__ == "__main__":
                 for i in range(len(tones)):
                     mixer.create_track(i, SINE_WAVE, attack=0.01, decay=0.1) #Create monophonic track
                     mixer.add_tone(i, frequency=tones[i], duration=0.25, amplitude=1.0) #add tone at given frequency
-                mixer.write_wav('tones.wav') #Mix all tracks into a single list of samples and write to .wav file
+                mixer.write_wav("tones.wav") #Mix all tracks into a single list of samples and write to .wav file
                 samples = mixer.mix() #Mix all tracks into a single list of samples scaled from 0.0 to 1.0, and return the sample list
                 #play sound using pygame
                 pygame.mixer.init()

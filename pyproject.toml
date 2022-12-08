@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "synesthesiaer"
+version = "0.0.4"
+authors = [
+  { name="Jackson Walters", email="jacksonwalters@gmail.com" },
+]
+description = "Assigns light and sound frequencies to prime numbers and mixes them using pygame."
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/jacksonwalters/synesthesiaer"
+"Bug Tracker" = "https://github.com/pypa/synesthesiaer/issues"
