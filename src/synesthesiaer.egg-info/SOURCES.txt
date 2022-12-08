@@ -1,7 +1,9 @@
 LICENSE
+MANIFEST.in
 README.md
 pyproject.toml
 src/synesthesiaer/__init__.py
+src/synesthesiaer/ciexyzjv.csv
 src/synesthesiaer/main.py
 src/synesthesiaer.egg-info/PKG-INFO
 src/synesthesiaer.egg-info/SOURCES.txt

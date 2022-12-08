@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: synesthesiaer
-Version: 0.0.4
+Version: 0.1.1
 Summary: Assigns light and sound frequencies to prime numbers and mixes them using pygame.
 Author-email: Jackson Walters <jacksonwalters@gmail.com>
 Project-URL: Homepage, https://github.com/jacksonwalters/synesthesiaer

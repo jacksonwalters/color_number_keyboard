@@ -36,7 +36,7 @@ f_violet = c/lambda_violet #freq of violet light, ~788Thz
 L = 1 #scaling factor controlling brightness/luminosity
 
 #constants for sound
-f_C = 440 #frequency of C note in Hz
+f_C = 110.0 #frequency of C note in Hz
 b_sound = np.power(2,1/12)
 
 #import RGB values from CIE 1931 color specification
@@ -44,8 +44,11 @@ b_sound = np.power(2,1/12)
 #first column is wavelengths in nm as ints in steps of 5
 #next 3 columns are x,y,z tristimulus values as floats
 cie_data=dict()
-#this_dir, this_filename = os.path.split(__file__)
-with open("src/synesthesiaer/ciexyzjv.csv", newline='') as csvfile:
+this_dir, this_filename = os.path.split(__file__)
+DATA_PATH = os.path.join(this_dir,"ciexyzjv.csv")
+print(this_dir)
+print(DATA_PATH)
+with open(DATA_PATH, newline='') as csvfile:
     reader = csv.reader(csvfile)
     for row in reader:
         cie_data[int(row[0])] = list(map(float,row[1:]))
