@@ -28,4 +28,4 @@ A similar method can be used for sound, in which case we just scale into the aud
 
 Importantly, *spectra* of colors and sounds combine additively. Combining natural numbers via multiplication is straightforward.
 
-This could be used to make a *keyboard whose keys are appropriately colored and labeled by prime numbers.
+This could be used to make a keyboard whose keys are appropriately colored and labeled by prime numbers.
